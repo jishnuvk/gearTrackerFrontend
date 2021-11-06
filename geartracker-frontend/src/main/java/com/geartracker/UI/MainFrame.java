@@ -18,21 +18,31 @@ public class MainFrame extends JFrame {
         container = getContentPane();
         layout = new CardLayout();
 
-        container.setLayout(layout);
+        setLayout(layout);
 
         setSize(1024,768);
-        setLayout(null);
+        
         setVisible(true);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public void addCard(String cardId, JComponent card){
         container.add(cardId, card);
     }
 
+    public void show(String cardId){
+
+        layout.show(container, cardId);
+    }
+
     public static void main( String[] args ){
 
         MainFrame mainframe = new MainFrame();
-        mainframe.addCard("tableTest", new SelectEquipment());
+        mainframe.addCard("a", new DashBoard("a", mainframe, "b"));
+        mainframe.addCard("b", new DashBoard("b", mainframe, "a"));
+        mainframe.addCard("selectEquipment", new SelectEquipment());
+        
+        mainframe.show("a");
 
     }
 

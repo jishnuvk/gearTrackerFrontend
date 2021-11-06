@@ -1,6 +1,8 @@
 package com.geartracker.UI.Panels;
 
 import java.awt.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 
@@ -12,10 +14,20 @@ public class SelectEquipment extends JPanel{
 
         setBounds(12, 10, 1000, 710);
         
-        Object data[][] = {{"101", "Amit", "670000", "adfasdfafqwerqer", "a", "b", false}};
-        String column[] = {"ID", "Name", "Salary", "Address", "a", "b", "c"};
+        ArrayList<String> column = new ArrayList<>();
+        column.add("ID");
+        column.add("name");
 
-        JTable t = new JTable(new CheckBoxTableModel(data, column));
+        ArrayList<ArrayList<Object>> data = new ArrayList<>();
+        ArrayList<Object> row1 = new ArrayList<>();
+        row1.add("1");
+        row1.add("jishnu");
+        data.add(row1);
+
+        
+        // JTable t = new CheckBoxTable(data, column);
+        JTable t = new ButtonTable(data, column);
+
         JScrollPane p = new JScrollPane(t);
         p.setPreferredSize(new Dimension(800, 600));
         JPanel leftPanel = new JPanel(), rightPanel = new JPanel();
