@@ -7,27 +7,39 @@ import javax.swing.table.AbstractTableModel;
 
 public class CheckBoxTable extends JTable{
 
+    private ArrayList<String> columnNames;
+    private ArrayList<ArrayList<Object>> data;
+
     public CheckBoxTable(ArrayList<ArrayList<Object>> data, ArrayList<String> columnNames){
 
         
         super(new CheckBoxTableModel(data, columnNames));
+        this.columnNames = columnNames;
+        this.data = data;
+
+
 
     }
 
-    // public ArrayList<String> getCheckedIDs(){
+    public ArrayList<String> getCheckedIDs(){
 
-    //     ArrayList<String> result = new ArrayList<>();
+        ArrayList<String> result = new ArrayList<>();
+        ArrayList<Object> row;
+        for(int i = 0; i < data.size(); i++){
+            row = data.get(i);
+            if((Boolean)row.get(row.size()-1)){
+                result.add((String)row.get(0));
+            }
+        }
 
-    //     for(int i = 0; i < )
-
-    //     return result;
-    // }
+        return result;
+    }
 }
 
 class CheckBoxTableModel extends AbstractTableModel{
     
-    private String[] columnNames;
-    private Object[][] data;
+    private ArrayList<String> columnNames;
+    private ArrayList<ArrayList<Object>> data;
 
 
     public CheckBoxTableModel(ArrayList<ArrayList<Object>> data, ArrayList<String> columnNames){
@@ -35,28 +47,28 @@ class CheckBoxTableModel extends AbstractTableModel{
         columnNames.add("Select");
         data.forEach((row) -> row.add(false));
         
-        this.columnNames = columnNames.toArray(new String[1]);
-        this.data = data.stream().map(u -> u.toArray(new Object[0])).toArray(Object[][]::new);
+        this.columnNames = columnNames;
+        this.data = data;
 
     }
 
     
 
     public int getColumnCount(){
-        return columnNames.length;
+        return columnNames.size();
     }
 
     public int getRowCount(){
-        return data.length;
+        return data.size();
     }
 
     public Object getValueAt(int row, int col){
-        return data[row][col];
+        return data.get(row).get(col);
     }
 
     public String getColumnName(int column){
 
-        return columnNames[column];
+        return columnNames.get(column);
     }
 
     public Class<?> getColumnClass(int c){
@@ -72,7 +84,7 @@ class CheckBoxTableModel extends AbstractTableModel{
     }
 
     public void setValueAt(Object value, int row, int col) {
-        data[row][col] = value;
+        data.get(row).set(col, value);
         fireTableCellUpdated(row, col);
     }
 }

@@ -1,6 +1,8 @@
 package com.geartracker.UI.Panels;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -37,7 +39,7 @@ public class SelectEquipment extends JPanel{
        
 
         
-        JTable t = new CheckBoxTable(data, column);
+        CheckBoxTable t = new CheckBoxTable(data, column);
         // JTable t = new ButtonTable(data, column);
 
         JScrollPane p = new JScrollPane(t);
@@ -50,9 +52,17 @@ public class SelectEquipment extends JPanel{
         
         ArrayList<JButton> buttonList = new ArrayList<>();
 
-        buttonList.add(new JButton("1"));
+        JButton b1 = new JButton("1");
+        b1.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                ArrayList<String> s = t.getCheckedIDs();
+                s.forEach((str) -> System.out.println(str));
+            }
+        });
+        buttonList.add(b1);
         buttonList.add(new JButton("2"));
         buttonList.add(new JButton("3"));
+        
 
         JPanel rightPanel = new ButtonColumn(150, 150, buttonList);
         rightPanel.setBackground(Color.BLACK);
