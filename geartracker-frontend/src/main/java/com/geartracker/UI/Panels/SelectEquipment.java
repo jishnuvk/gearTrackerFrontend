@@ -23,26 +23,42 @@ public class SelectEquipment extends JPanel{
         row1.add("1");
         row1.add("jishnu");
         data.add(row1);
+        
+        ArrayList<Object> row2 = new ArrayList<>();
+        row2.add("2");
+        row2.add("john");
+        data.add(row2);
+        
+        ArrayList<Object> row3 = new ArrayList<>();
+        row3.add("3");
+        row3.add("jim");
+        data.add(row3);
+
+       
 
         
-        // JTable t = new CheckBoxTable(data, column);
-        JTable t = new ButtonTable(data, column);
+        JTable t = new CheckBoxTable(data, column);
+        // JTable t = new ButtonTable(data, column);
 
         JScrollPane p = new JScrollPane(t);
         p.setPreferredSize(new Dimension(800, 600));
-        JPanel leftPanel = new JPanel(), rightPanel = new JPanel();
+
+        JPanel leftPanel = new JPanel();
 
         leftPanel.add(p);
         add(leftPanel, BorderLayout.EAST);
-        leftPanel.setBackground(Color.RED);
         
-        JLabel dstLabel = new JLabel("Right");
-        rightPanel.add(dstLabel);
+        ArrayList<JButton> buttonList = new ArrayList<>();
+
+        buttonList.add(new JButton("1"));
+        buttonList.add(new JButton("2"));
+        buttonList.add(new JButton("3"));
+
+        JPanel rightPanel = new ButtonColumn(150, 150, buttonList);
+        rightPanel.setBackground(Color.BLACK);
         add(rightPanel, BorderLayout.WEST);
-        JButton button = new JButton("hello");
-        rightPanel.add(button);
-        rightPanel.setBackground(Color.CYAN);
         
+
         setVisible(true);
     }
 

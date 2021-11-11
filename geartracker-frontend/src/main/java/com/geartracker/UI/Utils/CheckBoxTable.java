@@ -13,6 +13,15 @@ public class CheckBoxTable extends JTable{
         super(new CheckBoxTableModel(data, columnNames));
 
     }
+
+    // public ArrayList<String> getCheckedIDs(){
+
+    //     ArrayList<String> result = new ArrayList<>();
+
+    //     for(int i = 0; i < )
+
+    //     return result;
+    // }
 }
 
 class CheckBoxTableModel extends AbstractTableModel{
