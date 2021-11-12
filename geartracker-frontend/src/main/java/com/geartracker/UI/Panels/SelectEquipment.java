@@ -60,8 +60,28 @@ public class SelectEquipment extends JPanel{
             }
         });
         buttonList.add(b1);
-        buttonList.add(new JButton("2"));
-        buttonList.add(new JButton("3"));
+
+        JButton b2 = new JButton("2");
+        b2.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                t.checkAll();
+                t.repaint();
+            }
+        });
+        buttonList.add(b2);
+
+        JButton b3 = new JButton("3");
+        b3.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                t.uncheckAll();
+                t.repaint();
+
+            }
+        });
+        buttonList.add(b3);
+        // buttonList.add(new JButton("3"));
+
+        
         
 
         JPanel rightPanel = new ButtonColumn(150, 150, buttonList);

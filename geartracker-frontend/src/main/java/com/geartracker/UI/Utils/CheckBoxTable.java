@@ -34,6 +34,16 @@ public class CheckBoxTable extends JTable{
 
         return result;
     }
+
+    public void checkAll(){
+
+        data.forEach((row)->row.set(row.size() - 1, true));
+    }
+
+    public void uncheckAll(){
+
+        data.forEach((row)->row.set(row.size() - 1, false));
+    }
 }
 
 class CheckBoxTableModel extends AbstractTableModel{
