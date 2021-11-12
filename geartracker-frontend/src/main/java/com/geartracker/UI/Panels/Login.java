@@ -1,7 +1,11 @@
 package com.geartracker.UI.Panels;
 
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -16,11 +20,23 @@ public class Login extends JPanel{
         labels.add("Name");
         types.add("string");
         labels.add("Password");
-        types.add("password");
+        types.add("bool");
 
         InputForm form = new InputForm(labels, types);
         add(form);
 
+        JButton loginButton = new JButton();
+        loginButton.addActionListener(new ActionListener(){
+
+            public void actionPerformed(ActionEvent e){
+                ArrayList<Object> a = form.getResponse();
+
+                a.forEach((o)-> System.out.println(o));
+                
+            }
+        });
+
+        add(loginButton);
 
     }
 
