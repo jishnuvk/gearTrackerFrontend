@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -55,9 +56,9 @@ public class Login extends JPanel{
         loginButton.addActionListener(new ActionListener(){
 
             public void actionPerformed(ActionEvent e){
-                ArrayList<Object> a = form.getResponse();
+                Map<String,Object> a = form.getResponse();
 
-                String password = (String)a.get(1);
+                String password = (String)a.get("Password");
                 if(password.equals("Student")){
                     mainframe.setStudentDashBoard();
                 }

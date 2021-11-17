@@ -19,6 +19,7 @@ public class addEquipment extends JPanel{
         add(Box.createVerticalGlue());
         
         ArrayList<String> labels = new ArrayList<>(), types = new ArrayList<>();
+        labels.add("ID"); types.add("string");
         labels.add("Name"); types.add("string");
         labels.add("Reserved"); types.add("bool");
 
@@ -41,6 +42,7 @@ public class addEquipment extends JPanel{
 
         JFrame f = new JFrame();
         addEquipment a = new addEquipment();
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         f.add(a);
         f.setSize(1024, 700);

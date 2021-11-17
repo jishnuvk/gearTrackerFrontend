@@ -2,13 +2,15 @@ package com.geartracker.UI.Utils;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JPanel;
 
 
 public class InputForm extends JPanel{
     
-    ArrayList<InputField> inputs;
+    private ArrayList<InputField> inputs;
 
     public InputForm(ArrayList<String> labels, ArrayList<String> types, int width, int height){
 
@@ -26,12 +28,30 @@ public class InputForm extends JPanel{
 
     }
 
-    public ArrayList<Object> getResponse(){
+    public InputField getField(String label){
 
-        ArrayList<Object> responses = new ArrayList<>();
+        for(int i=0; i < inputs.size(); i++){
+            if(inputs.get(i).getLabel().equals(label)){
+                return inputs.get(i);
+            }
+        }
 
-        inputs.forEach((input)->responses.add(input.getResponse()));
+        return null;
+
+    }
+
+
+    public Map<String,Object> getResponse(){
+
+        Map<String,Object> responses = new HashMap<>();
+
+        inputs.forEach((input)->responses.put(input.getLabel(), input.getResponse()));
         return responses;
+    }
+
+    public void clear(){
+
+        inputs.forEach((i)->i.clear());
     }
 
 }

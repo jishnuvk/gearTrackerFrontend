@@ -40,6 +40,7 @@ public class RemoveEquipment extends JPanel{
 
         JFrame f = new JFrame();
         RemoveEquipment a = new RemoveEquipment();
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         f.add(a);
         f.setSize(1024, 700);

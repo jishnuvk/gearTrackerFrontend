@@ -17,4 +17,6 @@ public abstract class DashBoard extends JPanel{
         setVisible(true);
     }
 
+    
+
 }

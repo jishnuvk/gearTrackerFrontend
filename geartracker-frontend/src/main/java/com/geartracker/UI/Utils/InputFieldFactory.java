@@ -10,9 +10,13 @@ public class InputFieldFactory {
         else if(inputType == "bool"){
             return new BoolInputField(label);
         }
+        else if(inputType == "choice"){
+            return new RadioButtonInputField(label);
+        }
         else{
             return new TextInputField(label);
         }
+        
 
     }
 
