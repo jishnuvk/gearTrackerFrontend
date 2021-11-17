@@ -49,7 +49,7 @@ class TextInputField extends InputField{
 
         super(labelString);
         input = new JTextField();
-        input.setPreferredSize(new Dimension(300, (int)input.getPreferredSize().getHeight() ));
+        input.setPreferredSize(new Dimension(300 - label.getPreferredSize().width, (int)input.getPreferredSize().getHeight() ));
         add(input);
     }
 
@@ -86,7 +86,8 @@ class PasswordInputField extends InputField{
 
         super(labelString);
         input = new JPasswordField();
-        input.setPreferredSize(new Dimension(300, (int)input.getPreferredSize().getHeight()));
+        int a = label.getPreferredSize().width;
+        input.setPreferredSize(new Dimension(300 - label.getPreferredSize().width, (int)input.getPreferredSize().getHeight()));
         add(input);
     }
 

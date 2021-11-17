@@ -7,37 +7,17 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-
+import com.geartracker.UI.MainFrame;
 import com.geartracker.UI.Utils.*;
 
-public class SelectEquipment extends JPanel{
+public class MultiSelect extends JPanel{
     
-    public SelectEquipment(){
+    Confirmation confirmation;
 
+    public MultiSelect(MainFrame mainframe, Confirmation confirmation, ArrayList<String> column, ArrayList<ArrayList<Object>> data){
+
+        this.confirmation = confirmation;
         setBounds(12, 10, 1000, 710);
-        
-        ArrayList<String> column = new ArrayList<>();
-        column.add("ID");
-        column.add("name");
-
-        ArrayList<ArrayList<Object>> data = new ArrayList<>();
-        ArrayList<Object> row1 = new ArrayList<>();
-        row1.add("1");
-        row1.add("jishnu");
-        data.add(row1);
-        
-        ArrayList<Object> row2 = new ArrayList<>();
-        row2.add("2");
-        row2.add("john");
-        data.add(row2);
-        
-        ArrayList<Object> row3 = new ArrayList<>();
-        row3.add("3");
-        row3.add("jim");
-        data.add(row3);
-
-       
-
         
         CheckBoxTable t = new CheckBoxTable(data, column);
         // JTable t = new ButtonTable(data, column);
@@ -52,16 +32,17 @@ public class SelectEquipment extends JPanel{
         
         ArrayList<JButton> buttonList = new ArrayList<>();
 
-        JButton b1 = new JButton("1");
+        JButton b1 = new JButton("Done");
         b1.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                ArrayList<String> s = t.getCheckedIDs();
-                s.forEach((str) -> System.out.println(str));
+                ArrayList<ArrayList<Object>> a = t.getCheckedData();
+                confirmation.setData(a);
+                mainframe.show("confirmation");
             }
         });
         buttonList.add(b1);
 
-        JButton b2 = new JButton("2");
+        JButton b2 = new JButton("Select All");
         b2.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 t.checkAll();
@@ -70,7 +51,7 @@ public class SelectEquipment extends JPanel{
         });
         buttonList.add(b2);
 
-        JButton b3 = new JButton("3");
+        JButton b3 = new JButton("Deselect All");
         b3.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 t.uncheckAll();
@@ -95,11 +76,11 @@ public class SelectEquipment extends JPanel{
     public static void main( String[] args ){
 
         JFrame f = new JFrame();
-        SelectEquipment s = new SelectEquipment();
+        // MultiSelect s = new MultiSelect();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         
-        f.add(s);
+        // f.add(s);
         f.setSize(1024, 700);
         f.setLayout(null);
         f.setVisible(true);
@@ -107,3 +88,4 @@ public class SelectEquipment extends JPanel{
     }
 
 }
+

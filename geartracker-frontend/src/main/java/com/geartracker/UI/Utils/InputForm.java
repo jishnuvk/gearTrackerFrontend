@@ -1,5 +1,6 @@
 package com.geartracker.UI.Utils;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -9,7 +10,11 @@ public class InputForm extends JPanel{
     
     ArrayList<InputField> inputs;
 
-    public InputForm(ArrayList<String> labels, ArrayList<String> types){
+    public InputForm(ArrayList<String> labels, ArrayList<String> types, int width, int height){
+
+        
+        setPreferredSize(new Dimension(width, height));
+        setMaximumSize(new Dimension(width, height));
 
         InputFieldFactory factory = new InputFieldFactory();
         inputs = new ArrayList<>();

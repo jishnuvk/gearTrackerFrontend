@@ -35,6 +35,24 @@ public class CheckBoxTable extends JTable{
         return result;
     }
 
+    public ArrayList<ArrayList<Object>> getCheckedData(){
+        
+        ArrayList<ArrayList<Object>> result = new ArrayList<>();
+        ArrayList<Object> row;
+
+        for(int i = 0; i < data.size(); i++){
+            row = data.get(i);
+            if((Boolean)row.get(row.size()-1)){
+                ArrayList<Object> copy = new ArrayList<>(row);
+                copy.remove(copy.size() - 1);
+                result.add(copy);
+            }
+        }
+
+        return result;
+
+    }
+    
     public void checkAll(){
 
         data.forEach((row)->row.set(row.size() - 1, true));
