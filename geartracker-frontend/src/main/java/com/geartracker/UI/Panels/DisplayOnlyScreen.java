@@ -22,8 +22,9 @@ import com.geartracker.UI.Utils.RegularTable;
 //No input can be taken in the table.
 public class DisplayOnlyScreen extends JPanel{
     
-    public DisplayOnlyScreen(MainFrame mainFrame, ArrayList<String> column, ArrayList<ArrayList<Object>> data){
+    public DisplayOnlyScreen( ArrayList<String> column, ArrayList<ArrayList<Object>> data){
 
+        MainFrame mainFrame = MainFrame.getMainFrame();
         setBounds(12, 10, 1000, 710);
         // ArrayList<String> column = new ArrayList<>();
         // // column.add("ID");

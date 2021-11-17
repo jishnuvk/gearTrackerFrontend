@@ -21,8 +21,9 @@ public class Confirmation extends JPanel{
     ArrayList<String> column;
     RegularTable regularTable;
     
-    public Confirmation(MainFrame mainFrame, ArrayList<String> column){
+    public Confirmation(ArrayList<String> column){
         
+        MainFrame mainFrame = MainFrame.getMainFrame();
         setBounds(12, 10, 1000, 710);
         this.column = column; 
 

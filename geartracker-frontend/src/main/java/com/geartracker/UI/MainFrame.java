@@ -9,12 +9,14 @@ import com.geartracker.UI.Panels.*;
 
 public class MainFrame extends JFrame {
 
+    private static MainFrame mainframe = new MainFrame();
+
     Container container;
     CardLayout layout;
     DashBoard dashBoard;
 
 
-    public MainFrame(){
+    private MainFrame(){
         
         container = getContentPane();
         layout = new CardLayout();
@@ -25,13 +27,17 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    public static MainFrame getMainFrame(){
+        return mainframe;
+    }
+
     public void addCard(String cardId, JComponent card){
         container.add(cardId, card);
     }
 
     public void login(){
         
-        addCard("login", new Login(this));
+        addCard("login", new Login());
         show("login");
         setVisible(true);
 
@@ -58,16 +64,16 @@ public class MainFrame extends JFrame {
     }
 
     public void setStudentDashBoard(){
-        setDashBoard(new StudentDashBoard(this));
+        setDashBoard(new StudentDashBoard());
     }
 
     public void setSCDashBoard(){
-        setDashBoard(new SCDashBoard(this));
+        setDashBoard(new SCDashBoard());
     }
 
     public static void main( String[] args ){
 
-        MainFrame mainframe = new MainFrame();
+        MainFrame mainframe = getMainFrame();
 
         mainframe.login();
     

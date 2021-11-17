@@ -11,9 +11,9 @@ import com.geartracker.UI.Utils.ButtonColumn;
 
 public class StudentDashBoard extends DashBoard{
 
-    public StudentDashBoard(MainFrame mainFrame){
-        super(mainFrame);
-
+    public StudentDashBoard(){
+        
+        MainFrame mainFrame = MainFrame.getMainFrame();
         ArrayList<JButton> buttonList = new ArrayList<>();
 
         JButton selectEquipment = new JButton("Request Equipment");
@@ -50,7 +50,7 @@ public class StudentDashBoard extends DashBoard{
         column.add("ID");
         column.add("name");
 
-        Confirmation confirmation = new Confirmation(mainFrame, column);
+        Confirmation confirmation = new Confirmation(column);
 
         ArrayList<ArrayList<Object>> data = new ArrayList<>();
         ArrayList<Object> row1 = new ArrayList<>();
@@ -67,7 +67,7 @@ public class StudentDashBoard extends DashBoard{
         row3.add("3");
         row3.add("jim");
         data.add(row3);
-        mainFrame.addCard("multiSelect", new MultiSelect(mainFrame, confirmation, column, data));
+        mainFrame.addCard("multiSelect", new MultiSelect(confirmation, column, data));
         mainFrame.show("multiSelect");
 
         mainFrame.addCard("confirmation", confirmation);
@@ -96,7 +96,7 @@ public class StudentDashBoard extends DashBoard{
         row3.add("jim");
         data.add(row3);
 
-        mainFrame.addCard("DisplayOnly", new DisplayOnlyScreen( mainFrame, column, data));
+        mainFrame.addCard("DisplayOnly", new DisplayOnlyScreen( column, data));
         mainFrame.show("DisplayOnly");
     }
 
@@ -122,7 +122,7 @@ public class StudentDashBoard extends DashBoard{
         row3.add("jim");
         data.add(row3);
 
-        mainFrame.addCard("DisplayOnly", new DisplayOnlyScreen( mainFrame, column, data));
+        mainFrame.addCard("DisplayOnly", new DisplayOnlyScreen( column, data));
         mainFrame.show("DisplayOnly");
     }
 }

@@ -13,9 +13,9 @@ import com.geartracker.UI.Utils.ButtonColumn;
 
 public class SCDashBoard extends DashBoard{
     
-    public SCDashBoard(MainFrame mainFrame){
+    public SCDashBoard(){
         
-        super(mainFrame);
+        MainFrame mainFrame = MainFrame.getMainFrame();
 
         ArrayList<JButton> buttonList = new ArrayList<>();
 

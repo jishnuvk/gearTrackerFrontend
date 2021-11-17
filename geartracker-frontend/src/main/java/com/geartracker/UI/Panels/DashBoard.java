@@ -10,9 +10,9 @@ public abstract class DashBoard extends JPanel{
 
     MainFrame mainFrame;
 
-    public DashBoard( MainFrame mainFrame){
+    public DashBoard(){
 
-        this.mainFrame = mainFrame; 
+        this.mainFrame = MainFrame.getMainFrame(); 
         setBounds(12, 10, 1000, 710);
         setVisible(true);
     }

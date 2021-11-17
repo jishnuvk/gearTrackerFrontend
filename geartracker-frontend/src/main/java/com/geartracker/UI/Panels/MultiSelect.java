@@ -14,7 +14,9 @@ public class MultiSelect extends JPanel{
     
     Confirmation confirmation;
 
-    public MultiSelect(MainFrame mainframe, Confirmation confirmation, ArrayList<String> column, ArrayList<ArrayList<Object>> data){
+    public MultiSelect(Confirmation confirmation, ArrayList<String> column, ArrayList<ArrayList<Object>> data){
+
+        MainFrame mainframe = MainFrame.getMainFrame();
 
         this.confirmation = confirmation;
         setBounds(12, 10, 1000, 710);

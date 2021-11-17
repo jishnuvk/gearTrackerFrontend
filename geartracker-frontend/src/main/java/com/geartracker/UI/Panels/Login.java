@@ -23,8 +23,9 @@ import com.geartracker.UI.Utils.InputForm;
 
 public class Login extends JPanel{
     
-    public Login(MainFrame mainframe){
+    public Login(){
         
+        MainFrame mainframe = MainFrame.getMainFrame();
         setBounds(12, 10, 1000, 600);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
@@ -81,9 +82,8 @@ public class Login extends JPanel{
 
     public static void main( String[] args ){
 
-        MainFrame m = new MainFrame();
         JFrame f = new JFrame();
-        Login s = new Login(m);
+        Login s = new Login();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         
