@@ -17,7 +17,7 @@ public class EquipmentHttpClientTest
 		
 		add_equipment_test(equipment);*/
 		//get_equipment_test("stud1");
-		get_available_equipment_test();
+		delete_equipment_test("F1");
 		
 		//add_user_test(user);
 		//JsonObject J = UserHttpClient.login("stud1", "password");
@@ -52,6 +52,11 @@ public class EquipmentHttpClientTest
 	{
 		ArrayList<ArrayList<Object>> J = EquipmentHttpClient.get_available_equipment();
 		//assert J.get("email").equals("stud1@iiitb.ac.in");
+		System.out.println(J);
+	}
+	public static void delete_equipment_test(String equipment_id)
+	{
+		String J = EquipmentHttpClient.delete_equipment(equipment_id);
 		System.out.println(J);
 	}
 }

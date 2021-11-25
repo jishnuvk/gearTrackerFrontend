@@ -176,4 +176,28 @@ public class EquipmentHttpClient
 	    //System.out.println(Requests);
 	    return requests;
 	}
+	public static String delete_equipment(String equipment_id)
+	{
+		HttpResponse<String> jsonResponse = null;
+		//System.out.println(s);
+		try {
+			//
+			//get equipment by equipment 'id'
+			//
+			jsonResponse = Unirest.delete("http://localhost:8080/geartracker-backend/webapi/equipments/"+equipment_id)
+			.header("Content-Type", "application/json")
+			.asString();
+		} catch (UnirestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return jsonResponse.getBody().toString();
+		
+		/*if(jsonResponse.getStatus() == 200)
+		{
+			return "Success";
+		}
+		return "Failed to fetch the equipment";*/
+	}
 }
