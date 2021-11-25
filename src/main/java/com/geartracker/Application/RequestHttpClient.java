@@ -1,6 +1,7 @@
 package com.geartracker.Application;
 
 import java.io.*;
+
 import java.util.*;
 
 import org.json.JSONArray;
@@ -98,6 +99,27 @@ public class RequestHttpClient
 		}
 		
 		return jsonResponse.getBody().toString();
+		
+		/*if(jsonResponse.getStatus() == 200)
+		{
+			return "Successfully Closed";
+		}
+		return "Error in closing. Please try again";*/
+	}
+	public static JsonObject get_request(String request_id)
+	{
+		HttpResponse<JsonNode> jsonResponse = null;
+		try {
+			jsonResponse = Unirest.get("http://localhost:8080/geartracker-backend/webapi/requests/"+request_id)
+			.header("Content-Type", "application/json")
+			.asJson();
+		} catch (UnirestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		JsonObject jsonObject = new JsonParser().parse(jsonResponse.getBody().toString()).getAsJsonObject();
+		return jsonObject;
 		
 		/*if(jsonResponse.getStatus() == 200)
 		{

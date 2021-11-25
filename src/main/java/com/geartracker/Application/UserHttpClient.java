@@ -1,6 +1,7 @@
 package com.geartracker.Application;
 
 import java.io.*;
+
 import java.util.*;
 
 import org.json.JSONObject;
@@ -80,5 +81,20 @@ public class UserHttpClient
 			return "Successfully Edited User";
 		}
 		return "Error in editing user. Please try again";
+	}
+	public static JsonObject show_user(String user_id)
+	{
+		HttpResponse<JsonNode> jsonResponse = null;
+		//http://localhost:8080/geartracker-backend/webapi/users/admin1
+		try {
+			jsonResponse = Unirest.get("http://localhost:8080/geartracker-backend/webapi/users/"+user_id)
+			.header("Content-Type", "application/json")
+			.asJson();
+		} catch (UnirestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		JsonObject jsonObject = new JsonParser().parse(jsonResponse.getBody().toString()).getAsJsonObject();
+		return jsonObject;
 	}
 }

@@ -135,4 +135,45 @@ public class EquipmentHttpClient
 		}
 		return "Failed to add the equipment";
 	}
+	public static ArrayList<ArrayList<Object>> get_available_equipment()
+	{
+		HttpResponse<JsonNode> jsonResponse = null;
+		try {
+			//
+			//get equipment of a student by student 'id'
+			//
+			jsonResponse = Unirest.get("http://localhost:8080/geartracker-backend/webapi/equipments/available")
+			.header("Content-Type", "application/json")
+			.asJson();
+		} catch (UnirestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		ArrayList<Object> stringArray = new ArrayList<Object>();
+	    JSONArray jsonArray = new JSONArray(jsonResponse.getBody().toString());
+	    
+	    //System.out.println(jsonArray);
+
+	    for (int i = 0; i < jsonArray.length(); i++) 
+	    {
+	        stringArray.add(jsonArray.get(i));
+	        //System.out.println(stringArray.get(i).getClass());
+	    }
+	    
+	    ArrayList<ArrayList<Object>> requests = new ArrayList<ArrayList<Object>>();
+	    for(int i=0;i<stringArray.size();i++)
+	    {
+	    	JsonObject jsonObject = new JsonParser().parse(stringArray.get(i).toString()).getAsJsonObject();
+	    	ArrayList<Object> details = new ArrayList<Object>();
+	    	details.add(jsonObject.get("id").getAsString());//.getAsString();
+	    	details.add(jsonObject.get("name").getAsString());
+	    	details.add(jsonObject.get("reserved").getAsString());
+	    	details.add(jsonObject.get("status").getAsString());
+	    	details.add(jsonObject.get("description").getAsString());
+	    	requests.add(details);
+	    }
+	    //System.out.println(Requests);
+	    return requests;
+	}
 }

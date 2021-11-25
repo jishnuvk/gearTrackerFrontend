@@ -16,7 +16,8 @@ public class EquipmentHttpClientTest
 		equipment.put("name", "e2");R
 		
 		add_equipment_test(equipment);*/
-		get_equipment_test("stud1");
+		//get_equipment_test("stud1");
+		get_available_equipment_test();
 		
 		//add_user_test(user);
 		//JsonObject J = UserHttpClient.login("stud1", "password");
@@ -44,6 +45,12 @@ public class EquipmentHttpClientTest
 	public static void add_equipment_test(Map<String, Object> equipment)
 	{
 		String J = EquipmentHttpClient.add_equipment(equipment);
+		//assert J.get("email").equals("stud1@iiitb.ac.in");
+		System.out.println(J);
+	}
+	public static void get_available_equipment_test()
+	{
+		ArrayList<ArrayList<Object>> J = EquipmentHttpClient.get_available_equipment();
 		//assert J.get("email").equals("stud1@iiitb.ac.in");
 		System.out.println(J);
 	}

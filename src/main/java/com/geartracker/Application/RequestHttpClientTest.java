@@ -20,7 +20,8 @@ public class RequestHttpClientTest
 		user.put("roles", new ArrayList<String>(List.of("student")));
 		user.put("sportsStatus", false);
 		user.put("student", 1);*/
-		close_request_test("3");
+		//close_request_test("3");
+		get_request_test("1");
 		//add_user_test(user);
 		//JsonObject J = UserHttpClient.login("stud1", "password");
 		//assert J.get("email").equals("stud1@iiitb.ac.in");
@@ -41,6 +42,12 @@ public class RequestHttpClientTest
 	public static void close_request_test(String request_id)
 	{
 		String J = RequestHttpClient.close_request(request_id);
+		//assert J.get("email").equals("stud1@iiitb.ac.in");
+		System.out.println(J);
+	}
+	public static void get_request_test(String request_id)
+	{
+		JsonObject J = RequestHttpClient.get_request(request_id);
 		//assert J.get("email").equals("stud1@iiitb.ac.in");
 		System.out.println(J);
 	}
