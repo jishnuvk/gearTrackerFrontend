@@ -21,12 +21,18 @@ import javax.swing.JPanel;
 
 import com.geartracker.UI.MainFrame;
 import com.geartracker.UI.Utils.InputForm;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.geartracker.Application.UserHttpClient;
+import com.geartracker.Application.DTO.User;
 
 public class Login extends JPanel{
     
+    InputForm form;
+
     public Login(){
         
-        MainFrame mainframe = MainFrame.getMainFrame();
+        
         setBounds(12, 10, 1000, 600);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
@@ -40,12 +46,12 @@ public class Login extends JPanel{
         add(Box.createVerticalGlue());
 
         ArrayList<String> labels = new ArrayList<>(), types = new ArrayList<>();
-        labels.add("Name");
+        labels.add("ID");
         types.add("string");
         labels.add("Password");
         types.add("password");
 
-        InputForm form = new InputForm(labels, types, 400, 100);
+        form = new InputForm(labels, types, 400, 100);
         form.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
         add(form);
@@ -53,24 +59,7 @@ public class Login extends JPanel{
 
         JButton loginButton = new JButton("login");
         
-        loginButton.addActionListener(new ActionListener(){
-
-            public void actionPerformed(ActionEvent e){
-                Map<String,Object> a = form.getResponse();
-
-                String password = (String)a.get("Password");
-                if(password.equals("Student")){
-                    mainframe.setStudentDashBoard();
-                }
-                else if(password.equals("SC")){
-                    mainframe.setSCDashBoard();
-                }
-                else{
-                    JOptionPane.showMessageDialog(mainframe, "Wrong username or password" + password);
-                }
-                
-            }
-        });
+        loginButton.addActionListener((e)->loginButtonPressed());
 
         loginButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
@@ -79,6 +68,40 @@ public class Login extends JPanel{
 
         setVisible(true);
 
+    }
+
+    private void loginButtonPressed(){
+
+        MainFrame mainframe = MainFrame.getMainFrame();
+
+        Map<String,Object> a = form.getResponse();
+
+        String id = (String)a.get("ID");
+        String password = (String)a.get("Password");
+
+        JsonObject result = UserHttpClient.login(id, password);
+
+        if(result == null){
+            JOptionPane.showMessageDialog(this, "Wrong UserName or Password", ":o", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        Gson gson = new Gson();
+
+        User user = gson.fromJson(result, User.class);
+
+        if(user.getRoles().contains("sportscomm")){
+            mainframe.setDashBoard(new SCDashBoard(user));
+        }
+        else if(user.getRoles().contains("student")){
+            mainframe.setDashBoard(new StudentDashBoard(user));
+        }
+        else if(user.getRoles().contains("instructor")){
+            mainframe.setDashBoard(new InstructorDashBoard(user));
+        }
+        else if(user.getRoles().contains("admin")){
+            mainframe.setDashBoard(new AdminDashBoard(user));
+        }
     }
 
     public static void main( String[] args ){

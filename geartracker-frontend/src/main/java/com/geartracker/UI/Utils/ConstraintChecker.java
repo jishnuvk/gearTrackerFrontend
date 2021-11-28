@@ -16,7 +16,7 @@ public class ConstraintChecker {
         // if(! (attribute instanceof String ) )
         //     return "";
         
-        Object attribute = attributes.get("email");
+        Object attribute = attributes.get("Email");
         String email = (String)attribute;
         if(!(email.matches("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"))){
             return "Please check the email format";

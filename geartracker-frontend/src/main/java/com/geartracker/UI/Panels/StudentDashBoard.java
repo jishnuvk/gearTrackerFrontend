@@ -6,13 +6,17 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import com.geartracker.Application.EquipmentHttpClient;
+import com.geartracker.Application.RequestHttpClient;
+import com.geartracker.Application.DTO.User;
 import com.geartracker.UI.MainFrame;
 import com.geartracker.UI.Utils.ButtonColumn;
 
 public class StudentDashBoard extends DashBoard{
 
-    public StudentDashBoard(){
-        
+    public StudentDashBoard(User user){
+
+        super(user);
         MainFrame mainFrame = MainFrame.getMainFrame();
         ArrayList<JButton> buttonList = new ArrayList<>();
 
@@ -40,37 +44,14 @@ public class StudentDashBoard extends DashBoard{
         });
         buttonList.add(viewRequests);
         
-        add(new ButtonColumn(150, 400, buttonList));
+        add(new ButtonColumn(400, 400, buttonList));
 
     }
 
     private void selectEquipmentRoute(){
 
-        ArrayList<String> column = new ArrayList<>();
-        column.add("ID");
-        column.add("name");
-
-        Confirmation confirmation = new Confirmation(column);
-
-        ArrayList<ArrayList<Object>> data = new ArrayList<>();
-        ArrayList<Object> row1 = new ArrayList<>();
-        row1.add("1");
-        row1.add("jishnu");
-        data.add(row1);
-        
-        ArrayList<Object> row2 = new ArrayList<>();
-        row2.add("2");
-        row2.add("john");
-        data.add(row2);
-        
-        ArrayList<Object> row3 = new ArrayList<>();
-        row3.add("3");
-        row3.add("jim");
-        data.add(row3);
-        mainFrame.addCard("multiSelect", new MultiSelect(confirmation, column, data));
-        mainFrame.show("multiSelect");
-
-        mainFrame.addCard("confirmation", confirmation);
+        mainFrame.addCard("RequestEquipment", new RequestEquipment(user));
+        mainFrame.show("RequestEquipment");
     }
     
     private void heldEquipmentRoute(){
@@ -78,49 +59,28 @@ public class StudentDashBoard extends DashBoard{
         ArrayList<String> column = new ArrayList<>();
         column.add("ID");
         column.add("name");
+        column.add("reserved");
+        column.add("status");
+        column.add("description");
 
-
-        ArrayList<ArrayList<Object>> data = new ArrayList<>();
-        ArrayList<Object> row1 = new ArrayList<>();
-        row1.add("1");
-        row1.add("jishnu");
-        data.add(row1);
-        
-        ArrayList<Object> row2 = new ArrayList<>();
-        row2.add("2");
-        row2.add("john");
-        data.add(row2);
-        
-        ArrayList<Object> row3 = new ArrayList<>();
-        row3.add("3");
-        row3.add("jim");
-        data.add(row3);
+        ArrayList<ArrayList<Object>> data = EquipmentHttpClient.get_equipment(user.getId());
 
         mainFrame.addCard("DisplayOnly", new DisplayOnlyScreen( column, data));
         mainFrame.show("DisplayOnly");
     }
 
     private void viewRequestsRoute(){
+        
         ArrayList<String> column = new ArrayList<>();
-        column.add("ID");
-        column.add("name");
+        column.add("requestId");
+        column.add("equipmentId");
+        column.add("status");
+        column.add("issueDate");
+        column.add("returnDate");
 
 
-        ArrayList<ArrayList<Object>> data = new ArrayList<>();
-        ArrayList<Object> row1 = new ArrayList<>();
-        row1.add("1");
-        row1.add("jishnu");
-        data.add(row1);
+        ArrayList<ArrayList<Object>> data = RequestHttpClient.get_requests_student(user.getId());
         
-        ArrayList<Object> row2 = new ArrayList<>();
-        row2.add("2");
-        row2.add("john");
-        data.add(row2);
-        
-        ArrayList<Object> row3 = new ArrayList<>();
-        row3.add("3");
-        row3.add("jim");
-        data.add(row3);
 
         mainFrame.addCard("DisplayOnly", new DisplayOnlyScreen( column, data));
         mainFrame.show("DisplayOnly");

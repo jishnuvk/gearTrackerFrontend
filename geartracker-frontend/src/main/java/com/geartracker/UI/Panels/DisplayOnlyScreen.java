@@ -70,7 +70,7 @@ public class DisplayOnlyScreen extends JPanel{
         });
         buttonList.add(b1);
 
-        JPanel rightPanel = new ButtonColumn(100, 150, buttonList);
+        JPanel rightPanel = new ButtonColumn(150, 100, buttonList);
         // rightPanel.setBackground(Color.BLACK);
         add(rightPanel, BorderLayout.WEST);
         leftPanel.setBackground(Color.BLACK);

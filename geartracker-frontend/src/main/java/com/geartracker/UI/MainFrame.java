@@ -63,18 +63,10 @@ public class MainFrame extends JFrame {
 
     }
 
-    public void setStudentDashBoard(){
-        setDashBoard(new StudentDashBoard());
-    }
-
-    public void setSCDashBoard(){
-        setDashBoard(new SCDashBoard());
-    }
 
     public static void main( String[] args ){
 
         MainFrame mainframe = getMainFrame();
-
         mainframe.login();
     
 

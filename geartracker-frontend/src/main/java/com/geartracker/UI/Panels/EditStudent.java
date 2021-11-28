@@ -10,13 +10,18 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.geartracker.Application.UserHttpClient;
+import com.geartracker.Application.DTO.User;
 import com.geartracker.UI.MainFrame;
 import com.geartracker.UI.Utils.ConstraintChecker;
 import com.geartracker.UI.Utils.InputForm;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 public class EditStudent extends JPanel{
 
     InputForm form;
+    User student;
 
     public EditStudent(){
 
@@ -27,14 +32,13 @@ public class EditStudent extends JPanel{
         ArrayList<String> labels = new ArrayList<>(), types = new ArrayList<>();
         labels.add("Name"); types.add("string");
         labels.add("Password"); types.add("string");
-        labels.add("email"); types.add("string");
+        labels.add("Email"); types.add("string");
         labels.add("Sports Team"); types.add("bool");
-        labels.add("Sports Committee member?:");types.add("choice");
+        labels.add("Sports Committee member?");types.add("bool");
 
         form = new InputForm(labels, types, 400, 200);
 
         add(form);
-        iteration();
 
         JPanel buttonPanel = new JPanel();
 
@@ -50,19 +54,48 @@ public class EditStudent extends JPanel{
 
     }
 
+    public void run(){
+        iteration();
+    }
+
     private void iteration(){
 
-        String id = (String)JOptionPane.showInputDialog(this, "Enter the student ID", "ID", JOptionPane.PLAIN_MESSAGE);
-        
-        if(id == null)
-            MainFrame.getMainFrame().returnToDashBoard();
+        boolean rerun = false;
+
+        do{
+
+            String id = (String)JOptionPane.showInputDialog(this, "Enter the student ID", "ID", JOptionPane.PLAIN_MESSAGE);
 
 
-        form.getField("Name").setField(id);
-        form.getField("Password").setField("Password");
-        form.getField("email").setField("Jishnu@iiitb.org");
-        form.getField("Sports Team").setField(true);
-        form.getField("Sports Committee member?:").setField("No");
+            if(id == null){
+                MainFrame.getMainFrame().returnToDashBoard();
+                return;
+            }
+
+            JsonObject result = UserHttpClient.show_user(id);
+
+            if(result == null){
+                JOptionPane.showMessageDialog(this, "The student does not exist");
+                rerun = true;
+                continue;
+            }
+
+            Gson gson = new Gson();
+            student = gson.fromJson(result, User.class);
+
+        }while(rerun);
+
+        form.getField("Name").setField(student.getName());
+        form.getField("Password").setField(student.getPassword());
+        form.getField("Email").setField(student.getEmail());
+        form.getField("Sports Team").setField(student.getSportsStatus());
+
+        if(student.getRoles().contains("sportscomm")){
+            form.getField("Sports Committee member?").setField(true);
+        }
+        else{
+            form.getField("Sports Committee member?").setField(false);
+        }
     }
 
     private void editStudentPressed(){
@@ -75,6 +108,23 @@ public class EditStudent extends JPanel{
             JOptionPane.showMessageDialog(this, err, "Bad Input", JOptionPane.ERROR_MESSAGE);
             return;
         }
+
+        student.setName((String)response.get("Name"));
+        student.resetPassword((String)response.get("Password"));
+        student.setEmail((String)response.get("Email"));
+        student.setSportsStatus((boolean)response.get("Sports Team"));
+        
+        ArrayList<String> role = new ArrayList<>();
+
+        role.add("student");
+        if((Boolean)response.get("Sports Committee member?")){
+            role.add("sportscomm");
+        }
+        
+        student.setRoles(role);
+
+        UserHttpClient.edit_user(student);
+
 
         int choice = JOptionPane.showConfirmDialog(this, "Do you want to edit more?", "Done",JOptionPane.YES_NO_OPTION);
         if(choice == 0){

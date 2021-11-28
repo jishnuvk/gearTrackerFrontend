@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 public class ButtonColumn extends JPanel{
     
-    public ButtonColumn(int height, int width, ArrayList<JButton> buttonList){
+    public ButtonColumn(int width, int height, ArrayList<JButton> buttonList){
 
         int heightStep = height/buttonList.size();
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);

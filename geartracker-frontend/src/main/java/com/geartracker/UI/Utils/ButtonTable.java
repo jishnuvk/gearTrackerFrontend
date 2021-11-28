@@ -14,17 +14,24 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellRenderer;
 
-// only rendering done. Click behavior remaining
-
 public class ButtonTable extends JTable{
-    
-    public ButtonTable(ArrayList<ArrayList<Object>> data, ArrayList<String> columnNames){
+
+    ButtonTableModel buttonTableModel;
+
+    public ButtonTable(ArrayList<ArrayList<Object>> data, ArrayList<String> columnNames, ButtonTableAction action){
 
         super(new ButtonTableModel(data, columnNames));
+        buttonTableModel = (ButtonTableModel)getModel();
         
         getColumn("select").setCellRenderer(new ButtonCellRenderer());
-        getColumn("select").setCellEditor(new ButtonEditor(new JCheckBox()));
+        getColumn("select").setCellEditor(new ButtonEditor(new JCheckBox(),action));
 
+    }
+
+    public void updateData(ArrayList<ArrayList<Object>> data){
+
+        buttonTableModel.updateData(data);
+        buttonTableModel.fireTableDataChanged();
     }
 
 }
@@ -32,34 +39,37 @@ public class ButtonTable extends JTable{
 
 class ButtonTableModel extends AbstractTableModel{
     
-    private String[] columnNames;
-    private Object[][] data;
+    private ArrayList<String> columnNames;
+    private ArrayList<ArrayList<Object>> data;
 
 
     public ButtonTableModel(ArrayList<ArrayList<Object>> data, ArrayList<String> columnNames){
         
         columnNames.add("select");
-        data.forEach((row)-> row.add("select"));
+        data.forEach((row)-> row.add(row.get(0)));
 
-        this.columnNames = columnNames.toArray(new String[1]);
-        this.data = data.stream().map(u -> u.toArray(new Object[0])).toArray(Object[][]::new);
+        this.columnNames = columnNames;
+        this.data = data;
 
     }
 
+    public void updateData(ArrayList<ArrayList<Object>> data){
+
+        data.forEach((row)-> row.add(row.get(0)));
+        this.data = data;
+    }
     
 
     public int getColumnCount(){
-        return columnNames.length;
+        return columnNames.size();
     }
 
     public int getRowCount(){
-        return data.length;
+        return data.size();
     }
 
     public Object getValueAt(int row, int col){
-        
-        return data[row][col];
-
+        return data.get(row).get(col);        
     }
 
     public Class<?> getColumnClass(int c){
@@ -78,11 +88,11 @@ class ButtonTableModel extends AbstractTableModel{
 
     public String getColumnName(int column){
 
-        return columnNames[column];
+        return columnNames.get(column);
     }
 
     public void setValueAt(Object value, int row, int col) {
-        data[row][col] = value;
+        data.get(row).set(col, value);
         fireTableCellUpdated(row, col);
     }
 
@@ -121,8 +131,9 @@ class ButtonEditor extends DefaultCellEditor{
     protected JButton button;
     private String label;
     private boolean isPushed;
+    private ButtonTableAction action;
 
-    public ButtonEditor(JCheckBox checkBox) {
+    public ButtonEditor(JCheckBox checkBox, ButtonTableAction action) {
         
         super(checkBox);
         button = new JButton();
@@ -130,9 +141,15 @@ class ButtonEditor extends DefaultCellEditor{
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                fireEditingStopped();
+                try{
+                    fireEditingStopped();
+                }
+                catch(Exception ex){
+
+                }    
             }
         });
+        this.action = action;
     }
 
     @Override
@@ -156,7 +173,7 @@ class ButtonEditor extends DefaultCellEditor{
     public Object getCellEditorValue() {
         if (isPushed) {
             
-            //action
+            action.action(label);
         }
         isPushed = false;
         return label;
@@ -169,5 +186,4 @@ class ButtonEditor extends DefaultCellEditor{
     }
 
 }
-
-
+ 

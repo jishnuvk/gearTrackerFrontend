@@ -62,7 +62,10 @@ public class MultiSelect extends JPanel{
             }
         });
         buttonList.add(b3);
-        // buttonList.add(new JButton("3"));
+        
+        JButton back = new JButton("Back");
+        back.addActionListener((e)->MainFrame.getMainFrame().returnToDashBoard());
+        buttonList.add(back);
 
         
         

@@ -54,7 +54,7 @@ public class Confirmation extends JPanel{
         });
         buttonList.add(b2);
 
-        JPanel rightPanel = new ButtonColumn(100, 150, buttonList);
+        JPanel rightPanel = new ButtonColumn(150, 100, buttonList);
         
         add(rightPanel, BorderLayout.WEST);
         

@@ -14,28 +14,30 @@ import com.geartracker.Application.EquipmentHttpClient;
 import com.geartracker.UI.MainFrame;
 import com.geartracker.UI.Utils.InputForm;
 
-public class RemoveEquipment extends JPanel{
+public class AddEquipment extends JPanel{
 
     InputForm form;
+    public AddEquipment(){
 
-    public RemoveEquipment(){
-        
         setBounds(12, 10, 1000, 600);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(Box.createVerticalGlue());
         
         ArrayList<String> labels = new ArrayList<>(), types = new ArrayList<>();
-        labels.add("ID"); types.add("string");
-        
-        form = new InputForm(labels, types, 400, 50);
+        labels.add("id"); types.add("string");
+        labels.add("name"); types.add("string");
+        labels.add("description"); types.add("string");
+        labels.add("reserved"); types.add("bool");
+
+        form = new InputForm(labels, types, 400, 150);
 
         add(form);
 
         JPanel buttonPanel = new JPanel();
 
-        JButton removeEquipment = new JButton("Remove");
-        removeEquipment.addActionListener((e)->removeEquipmentPressed());
-        buttonPanel.add(removeEquipment);
+        JButton addEquipment = new JButton("Add");
+        addEquipment.addActionListener((e)->addEquipmentPressed());
+        buttonPanel.add(addEquipment);
 
         JButton cancel = new JButton("Cancel");
         cancel.addActionListener((e)->cancelPressed());
@@ -44,35 +46,32 @@ public class RemoveEquipment extends JPanel{
         add(buttonPanel);
     }
 
-    private void removeEquipmentPressed(){
-        
+    private void addEquipmentPressed(){
+
         Map<String, Object> response = form.getResponse();
+        
+        response.put("status", "available");
+        EquipmentHttpClient.add_equipment(response);
 
-        String code = EquipmentHttpClient.delete_equipment((String)response.get("ID"));
-
-        if(!code.equals("success")){
-            JOptionPane.showMessageDialog(this, "The equipment does not exist", "XP", JOptionPane.ERROR_MESSAGE);
-        }
-
-
-        int choice = JOptionPane.showConfirmDialog(this, "Do you want to remove more?", "Done",JOptionPane.YES_NO_OPTION);
+        int choice = JOptionPane.showConfirmDialog(this, "Do you want to add more?", "Done",JOptionPane.YES_NO_OPTION);
         if(choice == 0){
             form.clear();
         }
         else{
             MainFrame.getMainFrame().returnToDashBoard();
         }
+
     }
 
     private void cancelPressed(){
-        MainFrame.getMainFrame().returnToDashBoard();
 
+        MainFrame.getMainFrame().returnToDashBoard();
     }
 
     public static void main(String[] args ){
 
         JFrame f = new JFrame();
-        RemoveEquipment a = new RemoveEquipment();
+        AddEquipment a = new AddEquipment();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         f.add(a);
@@ -80,7 +79,5 @@ public class RemoveEquipment extends JPanel{
         f.setLayout(null);
         f.setVisible(true);
     }
-
-
     
 }

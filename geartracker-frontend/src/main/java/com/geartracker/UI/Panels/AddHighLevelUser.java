@@ -16,11 +16,11 @@ import com.geartracker.UI.MainFrame;
 import com.geartracker.UI.Utils.ConstraintChecker;
 import com.geartracker.UI.Utils.InputForm;
 
-public class AddStudent extends JPanel{
+public class AddHighLevelUser extends JPanel{
 
     InputForm form;
 
-    public AddStudent(){
+    public AddHighLevelUser(){
 
         setBounds(12, 10, 1000, 600);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -31,8 +31,7 @@ public class AddStudent extends JPanel{
         labels.add("Name"); types.add("string");
         labels.add("Password"); types.add("string");
         labels.add("Email"); types.add("string");
-        labels.add("Sports Team"); types.add("bool");
-        labels.add("Sports Committee member?:");types.add("bool");
+        labels.add("User Type:,admin,instructor");types.add("choice");
 
         form = new InputForm(labels, types, 400, 200);
 
@@ -40,9 +39,9 @@ public class AddStudent extends JPanel{
 
         JPanel buttonPanel = new JPanel();
 
-        JButton addStudent = new JButton("Add");
-        addStudent.addActionListener((e)->addStudentPressed());
-        buttonPanel.add(addStudent);
+        JButton addUser = new JButton("Add");
+        addUser.addActionListener((e)->addUserPressed());
+        buttonPanel.add(addUser);
 
         JButton cancel = new JButton("Cancel");
         cancel.addActionListener((e)->cancelPressed());
@@ -52,7 +51,7 @@ public class AddStudent extends JPanel{
 
     }
 
-    private void addStudentPressed(){
+    private void addUserPressed(){
 
         Map<String, Object> response = form.getResponse();
 
@@ -63,24 +62,20 @@ public class AddStudent extends JPanel{
             return;
         }
 
-        Map<String, Object> student = new HashMap<>();
-        student.put("id", response.get("ID"));
-        student.put("name", response.get("Name"));
-        student.put("password", response.get("Password"));
-        student.put("email", response.get("Email"));
-        student.put("student", 100);
-        student.put("sportsStatus", response.get("Sports Team"));
-        student.put("fine", 0);
+        Map<String, Object> user = new HashMap<>();
+        user.put("id", response.get("ID"));
+        user.put("name", response.get("Name"));
+        user.put("password", response.get("Password"));
+        user.put("email", response.get("Email"));
+        user.put("student", 0);
+        user.put("sportsStatus", false);
+        user.put("fine", 0);
 
         ArrayList<String> role = new ArrayList<>();
+        role.add((String)response.get("User Type:"));
+        user.put("roles", role);
 
-        role.add("student");
-        if((Boolean)response.get("Sports Committee member?:")){
-            role.add("sportscomm");
-        }
-        student.put("roles", role);
-
-        UserHttpClient.add_user(student);        
+        UserHttpClient.add_user(user);        
 
         int choice = JOptionPane.showConfirmDialog(this, "Do you want to add more?", "Done",JOptionPane.YES_NO_OPTION);
         if(choice == 0){
@@ -101,7 +96,7 @@ public class AddStudent extends JPanel{
     public static void main(String[] args ){
 
         JFrame f = new JFrame();
-        AddStudent a = new AddStudent();
+        AddHighLevelUser a = new AddHighLevelUser();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         f.add(a);
@@ -111,3 +106,4 @@ public class AddStudent extends JPanel{
     }
     
 }
+
