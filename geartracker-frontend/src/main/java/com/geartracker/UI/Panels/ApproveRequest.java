@@ -14,10 +14,9 @@ import com.geartracker.Application.DTO.Request;
 import com.geartracker.UI.MainFrame;
 import com.geartracker.UI.Utils.InputForm;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
-import org.json.JSONObject;
+
 
 public class ApproveRequest extends JPanel{
 

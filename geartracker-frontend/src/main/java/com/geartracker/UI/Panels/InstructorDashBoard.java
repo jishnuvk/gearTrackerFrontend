@@ -1,15 +1,13 @@
 package com.geartracker.UI.Panels;
 
 import com.geartracker.Application.DTO.User;
-import com.geartracker.UI.MainFrame;
+
 
 import java.awt.event.*;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
-import com.geartracker.UI.MainFrame;
 import com.geartracker.UI.Utils.ButtonColumn;
 
 public class InstructorDashBoard extends DashBoard{
@@ -17,7 +15,7 @@ public class InstructorDashBoard extends DashBoard{
     public InstructorDashBoard(User user){
         
         super(user);
-        MainFrame mainFrame = MainFrame.getMainFrame();
+       
 
         ArrayList<JButton> buttonList = new ArrayList<>();
 

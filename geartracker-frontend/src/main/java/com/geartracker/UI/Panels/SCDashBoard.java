@@ -3,7 +3,6 @@ package com.geartracker.UI.Panels;
 import com.geartracker.Application.EquipmentHttpClient;
 import com.geartracker.Application.RequestHttpClient;
 import com.geartracker.Application.DTO.User;
-import com.geartracker.UI.MainFrame;
 
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ public class SCDashBoard extends DashBoard{
     public SCDashBoard(User user){
         
         super(user);
-        MainFrame mainFrame = MainFrame.getMainFrame();
 
         ArrayList<JButton> buttonList = new ArrayList<>();
 

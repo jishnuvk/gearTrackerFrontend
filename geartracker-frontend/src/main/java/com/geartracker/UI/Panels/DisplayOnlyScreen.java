@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
-import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,7 +14,6 @@ import javax.swing.JScrollPane;
 
 import com.geartracker.UI.MainFrame;
 import com.geartracker.UI.Utils.ButtonColumn;
-import com.geartracker.UI.Utils.CheckBoxTable;
 import com.geartracker.UI.Utils.RegularTable;
 
 //for screens that only display info in a table. 
@@ -82,34 +80,7 @@ public class DisplayOnlyScreen extends JPanel{
         JFrame f = new JFrame();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DataFetcher sample = (ArrayList<String> columns, ArrayList<ArrayList<Object>> data)->{
-            columns.add("ID");
-            columns.add("name");
-            columns.add("age");
-
-            ArrayList<Object> row1 = new ArrayList<>();
-            row1.add("1");
-            row1.add("jishnu");
-            row1.add(10);
-            data.add(row1);
-            
-            ArrayList<Object> row2 = new ArrayList<>();
-            row2.add("2");
-            row2.add("john");
-            row2.add(10);
-            data.add(row2);
-            
-            ArrayList<Object> row3 = new ArrayList<>();
-            row3.add("3");
-            row3.add("jim");
-            row3.add(10);
-            data.add(row3);
-        };
-        // // DisplayOnlyScreen s = new DisplayOnlyScreen(sample);
-        // f.add(s);
-        // f.setSize(1024, 700);
-        // f.setLayout(null);
-        // f.setVisible(true);
+        
     }
 
 }

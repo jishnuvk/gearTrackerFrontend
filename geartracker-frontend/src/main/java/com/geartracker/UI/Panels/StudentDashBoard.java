@@ -4,12 +4,11 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
+
 
 import com.geartracker.Application.EquipmentHttpClient;
 import com.geartracker.Application.RequestHttpClient;
 import com.geartracker.Application.DTO.User;
-import com.geartracker.UI.MainFrame;
 import com.geartracker.UI.Utils.ButtonColumn;
 
 public class StudentDashBoard extends DashBoard{
@@ -17,7 +16,7 @@ public class StudentDashBoard extends DashBoard{
     public StudentDashBoard(User user){
 
         super(user);
-        MainFrame mainFrame = MainFrame.getMainFrame();
+        
         ArrayList<JButton> buttonList = new ArrayList<>();
 
         JButton selectEquipment = new JButton("Request Equipment");

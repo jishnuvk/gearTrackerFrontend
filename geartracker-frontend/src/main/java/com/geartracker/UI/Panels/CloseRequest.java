@@ -16,8 +16,6 @@ import com.geartracker.UI.Utils.InputForm;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import org.apache.http.impl.execchain.RequestAbortedException;
-
 public class CloseRequest extends JPanel{
 
     InputForm form;

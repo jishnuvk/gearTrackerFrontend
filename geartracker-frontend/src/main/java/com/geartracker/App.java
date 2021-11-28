@@ -7,6 +7,8 @@ public class App
 {
     public static void main( String[] args )
     {
-        // new MainFrame();
+        MainFrame mainFrame = MainFrame.getMainFrame();
+        mainFrame.login();
+
     }
 }

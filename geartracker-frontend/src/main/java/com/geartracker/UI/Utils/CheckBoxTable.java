@@ -7,14 +7,13 @@ import javax.swing.table.AbstractTableModel;
 
 public class CheckBoxTable extends JTable{
 
-    private ArrayList<String> columnNames;
+    
     private ArrayList<ArrayList<Object>> data;
 
     public CheckBoxTable(ArrayList<ArrayList<Object>> data, ArrayList<String> columnNames){
 
         
         super(new CheckBoxTableModel(data, columnNames));
-        this.columnNames = columnNames;
         this.data = data;
 
 
