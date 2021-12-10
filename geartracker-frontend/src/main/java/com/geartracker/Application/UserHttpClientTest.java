@@ -9,7 +9,7 @@ public class UserHttpClientTest
 {
 	public static void main(String[] args)
 	{
-		//login_test("admin1", "admin1");
+		login_test("admin1", "admin1");
 		show_user_test("admin1");
 	}
 	public static void login_test(String user_name, String password)

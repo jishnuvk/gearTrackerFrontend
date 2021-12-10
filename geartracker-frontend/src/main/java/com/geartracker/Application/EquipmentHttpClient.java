@@ -1,10 +1,10 @@
 package com.geartracker.Application;
 
+import static org.junit.Assert.assertNotEquals;
+
 import java.util.*;
 
 import org.json.JSONArray;
-// import static org.junit.Assert.assertEquals;
-import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -18,45 +18,35 @@ public class EquipmentHttpClient
 	{
 		HttpResponse<String> jsonResponse = null;
 		String s = "{\"user_id\":" + "\""+ user_id + "\"}";
-		String auth_token = UserHttpClient.get_auth_token("admin1","admin1");
-		
-		if(auth_token != "PpASbLPIcMWxtwST4gvFCQ==")
-		{
-			System.out.println("Unauthorised access!");
-			return null;
-		}
 		
 		try {
 			jsonResponse = Unirest.post("http://localhost:8080/geartracker-backend/webapi/equipments/book/"+equipment_id)
 			.header("Content-Type", "application/json")
-			.header("auth-token", auth_token)
+			.header("auth-token", UserHttpClient.auth_token)
 			.body(s)
 			.asString();
 		} catch (UnirestException e) {
 			e.printStackTrace();
 		}
 		
+		assertNotEquals("Unauthorised Error", jsonResponse.getStatus(), 401);
+		
 		return jsonResponse.getBody().toString();
 	}
 	public static ArrayList<ArrayList<Object>> get_equipment(String student_id)
 	{
-		HttpResponse<JsonNode> jsonResponse = null;
-		String auth_token = UserHttpClient.get_auth_token("admin1","admin1");
-		
-		if(auth_token != "PpASbLPIcMWxtwST4gvFCQ==")
-		{
-			System.out.println("Unauthorised access!");
-			return null;
-		}
+		HttpResponse<String> jsonResponse = null;
 		
 		try {
 			jsonResponse = Unirest.get("http://localhost:8080/geartracker-backend/webapi/equipments/student/"+student_id)
 			.header("Content-Type", "application/json")
-			.header("auth-token", auth_token)
-			.asJson();
+			.header("auth-token", UserHttpClient.auth_token)
+			.asString();
 		} catch (UnirestException e) {
 			e.printStackTrace();
 		}
+		
+		assertNotEquals("Unauthorised Error", jsonResponse.getStatus(), 401);
 		
 		ArrayList<Object> stringArray = new ArrayList<Object>();
 	    JSONArray jsonArray = new JSONArray(jsonResponse.getBody().toString());
@@ -82,23 +72,18 @@ public class EquipmentHttpClient
 	}
 	public static ArrayList<Object> equipment_report()
 	{
-		HttpResponse<JsonNode> jsonResponse = null;
-		String auth_token = UserHttpClient.get_auth_token("admin1","admin1");
-		
-		if(auth_token != "PpASbLPIcMWxtwST4gvFCQ==")
-		{
-			System.out.println("Unauthorised access!");
-			return null;
-		}
+		HttpResponse<String> jsonResponse = null;
 		
 		try {
 			jsonResponse = Unirest.get("http://localhost:8080/geartracker-backend/webapi/report")
 			.header("Content-Type", "application/json")
-			.header("auth-token", auth_token)
-			.asJson();
+			.header("auth-token", UserHttpClient.auth_token)
+			.asString();
 		} catch (UnirestException e) {
 			e.printStackTrace();
 		}
+		
+		assertNotEquals("Unauthorised Error", jsonResponse.getStatus(), 401);
 		
 		JsonObject jsonObject = new JsonParser().parse(jsonResponse.getBody().toString()).getAsJsonObject();
     	ArrayList<Object> Details = new ArrayList<Object>();
@@ -112,26 +97,21 @@ public class EquipmentHttpClient
 	//not completed
 	public static String add_equipment(Map<String, Object> equipment)
 	{
-		HttpResponse<JsonNode> jsonResponse = null;
+		HttpResponse<String> jsonResponse = null;
 		Gson gson = new Gson(); 
 		String json = gson.toJson(equipment);
-		String auth_token = UserHttpClient.get_auth_token("admin1","admin1");
-		
-		if(auth_token != "PpASbLPIcMWxtwST4gvFCQ==")
-		{
-			System.out.println("Unauthorised access!");
-			return null;
-		}
 		
 		try {
 			jsonResponse = Unirest.post("http://localhost:8080/geartracker-backend/webapi/equipments")
 			.header("Content-Type", "application/json")
-			.header("auth-token", auth_token)
+			.header("auth-token", UserHttpClient.auth_token)
 			.body(json)
-			.asJson();
+			.asString();
 		} catch (UnirestException e) {
 			e.printStackTrace();
 		}
+		
+		assertNotEquals("Unauthorised Error", jsonResponse.getStatus(), 401);
 		
 		if(jsonResponse.getStatus() == 200)
 		{
@@ -141,23 +121,18 @@ public class EquipmentHttpClient
 	}
 	public static ArrayList<ArrayList<Object>> get_available_equipment()
 	{
-		HttpResponse<JsonNode> jsonResponse = null;
-		String auth_token = UserHttpClient.get_auth_token("admin1","admin1");
-		
-		if(auth_token != "PpASbLPIcMWxtwST4gvFCQ==")
-		{
-			System.out.println("Unauthorised access!");
-			return null;
-		}
+		HttpResponse<String> jsonResponse = null;
 		
 		try {
 			jsonResponse = Unirest.get("http://localhost:8080/geartracker-backend/webapi/equipments/available")
 			.header("Content-Type", "application/json")
-			.header("auth-token", auth_token)
-			.asJson();
+			.header("auth-token", UserHttpClient.auth_token)
+			.asString();
 		} catch (UnirestException e) {
 			e.printStackTrace();
 		}
+		
+		assertNotEquals("Unauthorised Error", jsonResponse.getStatus(), 401);
 		
 		ArrayList<Object> stringArray = new ArrayList<Object>();
 	    JSONArray jsonArray = new JSONArray(jsonResponse.getBody().toString());
@@ -184,23 +159,41 @@ public class EquipmentHttpClient
 	public static String delete_equipment(String equipment_id)
 	{
 		HttpResponse<String> jsonResponse = null;
-		String auth_token = UserHttpClient.get_auth_token("admin1","admin1");
-		
-		if(auth_token != "PpASbLPIcMWxtwST4gvFCQ==")
-		{
-			System.out.println("Unauthorised access!");
-			return null;
-		}
 		
 		try {
 			jsonResponse = Unirest.delete("http://localhost:8080/geartracker-backend/webapi/equipments/"+equipment_id)
 			.header("Content-Type", "application/json")
-			.header("auth-token", auth_token)
+			.header("auth-token", UserHttpClient.auth_token)
 			.asString();
 		} catch (UnirestException e) {
 			e.printStackTrace();
 		}
 		
+		assertNotEquals("Unauthorised Error", jsonResponse.getStatus(), 401);
+		
 		return jsonResponse.getBody().toString();
+	}
+	public static JsonObject report_equipment_acc_to_status(String status)
+	{
+		HttpResponse<String> jsonResponse = null;
+		
+		try {
+			jsonResponse = Unirest.get("http://localhost:8080/geartracker-backend/webapi/report/equipment/"+status)
+			.header("Content-Type", "application/json")
+			.header("auth-token", UserHttpClient.auth_token)
+			.asString();
+		} catch (UnirestException e) {
+			e.printStackTrace();
+		}
+		
+		assertNotEquals("Unauthorised to this user", jsonResponse.getStatus(), 401);
+		
+		try{
+			JsonObject jsonObject = new JsonParser().parse(jsonResponse.getBody().toString()).getAsJsonObject();
+			return jsonObject;
+		}
+		catch(NullPointerException npe){
+			return null;
+		}	
 	}
 }

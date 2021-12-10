@@ -3,6 +3,8 @@ package com.geartracker.Application;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.google.gson.JsonObject;
+
 public class EquipmentHttpClientTest 
 {
 	public static void main(String[] args)
@@ -30,6 +32,12 @@ public class EquipmentHttpClientTest
 	public static void add_equipment_test(Map<String, Object> equipment)
 	{
 		String J = EquipmentHttpClient.add_equipment(equipment);
+		//assert J.get("email").equals("stud1@iiitb.ac.in");
+		System.out.println(J);
+	}
+	public static void show_equipment_acc_to_status_test(String status)
+	{
+		JsonObject J = EquipmentHttpClient.report_equipment_acc_to_status(status);
 		//assert J.get("email").equals("stud1@iiitb.ac.in");
 		System.out.println(J);
 	}
