@@ -41,4 +41,10 @@ public class EquipmentHttpClientTest
 		//assert J.get("email").equals("stud1@iiitb.ac.in");
 		System.out.println(J);
 	}
+	public static void show_equipment_acc_to_status_test(String status, Map<String, Object> dates)
+	{
+		JsonObject J = EquipmentHttpClient.report_equipment_acc_to_status(status, dates);
+		//assert J.get("email").equals("stud1@iiitb.ac.in");
+		System.out.println(J);
+	}
 }

@@ -196,4 +196,30 @@ public class EquipmentHttpClient
 			return null;
 		}	
 	}
+	public static JsonObject report_equipment_acc_to_status(String status, Map<String, Object> dates)
+	{
+		HttpResponse<String> jsonResponse = null;
+		Gson gson = new Gson(); 
+		String json = gson.toJson(dates);
+		
+		try {
+			jsonResponse = Unirest.post("http://localhost:8080/geartracker-backend/webapi/report/equipment/"+status)
+			.header("Content-Type", "application/json")
+			.header("auth-token", UserHttpClient.auth_token)
+			.body(json)
+			.asString();
+		} catch (UnirestException e) {
+			e.printStackTrace();
+		}
+		
+		assertNotEquals("Unauthorised to this user", jsonResponse.getStatus(), 401);
+		
+		try{
+			JsonObject jsonObject = new JsonParser().parse(jsonResponse.getBody().toString()).getAsJsonObject();
+			return jsonObject;
+		}
+		catch(NullPointerException npe){
+			return null;
+		}	
+	}
 }
