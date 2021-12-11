@@ -12,13 +12,13 @@ public class User {
 	private int fine;
 	private boolean sportsStatus;
 
-//	public User(String _id, String _name, String _password, String _email){
-//		id = _id;
-//		name = _name;
-//		password = _password;
-//		email = _email;
-//		roles = new ArrayList<String>();
-//	}
+	public User(String _id, String _name, String _password, String _email){
+		id = _id;
+		name = _name;
+		password = _password;
+		email = _email;
+		roles = new ArrayList<String>();
+	}
 
 	public User(){
 		student = 0;

@@ -1,15 +1,17 @@
 package com.geartracker.UI.Panels;
 
 import java.awt.event.*;
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-
+import javax.swing.JFrame;
 
 import com.geartracker.Application.EquipmentHttpClient;
 import com.geartracker.Application.RequestHttpClient;
 import com.geartracker.Application.DTO.User;
 import com.geartracker.UI.Utils.ButtonColumn;
+import com.geartracker.UI.Utils.DisplayUser;
 
 public class StudentDashBoard extends DashBoard{
 
@@ -43,7 +45,8 @@ public class StudentDashBoard extends DashBoard{
         });
         buttonList.add(viewRequests);
         
-        add(new ButtonColumn(400, 400, buttonList));
+        add(new ButtonColumn(400, 625, buttonList), BorderLayout.EAST);
+        
 
     }
 
@@ -83,5 +86,25 @@ public class StudentDashBoard extends DashBoard{
 
         mainFrame.addCard("DisplayOnly", new DisplayOnlyScreen( column, data));
         mainFrame.show("DisplayOnly");
+    }
+
+    public static void main(String[] args) {
+        
+        JFrame f = new JFrame();
+
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        User u = new User("IMT2018033", "Jishnu", "a", "jishnu@iiitb.org");
+        ArrayList<String> r = new ArrayList<String>();
+        r.add("Student");
+        u.setRoles(r);
+        u.addFine(100);
+        StudentDashBoard v = new StudentDashBoard(u);
+        f.add(v);
+
+        f.setSize(1024, 700);
+        f.setLayout(null);
+        f.setVisible(true);
+
     }
 }

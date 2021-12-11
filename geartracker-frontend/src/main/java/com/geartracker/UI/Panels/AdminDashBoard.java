@@ -35,7 +35,11 @@ public class AdminDashBoard extends DashBoard{
         addHighLevelUser.addActionListener((e)->addHighLevelUserRoute());
         buttonList.add(addHighLevelUser);
 
-        add(new ButtonColumn(400, 400, buttonList));
+        JButton viewReport = new JButton("View Report");
+        viewReport.addActionListener((e)->viewReportRoute());
+        buttonList.add(viewReport);
+
+        add(new ButtonColumn(400, 625, buttonList));
     }
 
     private void addEquipmentRoute(){
@@ -73,6 +77,13 @@ public class AdminDashBoard extends DashBoard{
 
         mainFrame.addCard("addHighLevelUser", new AddHighLevelUser());
         mainFrame.show("addHighLevelUser");
+
+    }
+
+    private void viewReportRoute(){
+
+        mainFrame.addCard("ViewReport", new ViewReport());
+        mainFrame.show("ViewReport");
 
     }
 

@@ -51,7 +51,12 @@ public class InstructorDashBoard extends DashBoard{
         });
         buttonList.add(closeRequest);
 
-        add(new ButtonColumn(400, 400, buttonList));
+        JButton viewReport = new JButton("View Report");
+        viewReport.addActionListener((e)->viewReportRoute());
+        buttonList.add(viewReport);
+
+
+        add(new ButtonColumn(400, 625, buttonList));
     }
 
     private void addEquipmentRoute(){
@@ -83,6 +88,13 @@ public class InstructorDashBoard extends DashBoard{
         mainFrame.addCard("closeRequest", closeRequest );
         mainFrame.show("closeRequest");
         closeRequest.run();
+
+    }
+
+    private void viewReportRoute(){
+
+        mainFrame.addCard("ViewReport", new ViewReport());
+        mainFrame.show("ViewReport");
 
     }
 

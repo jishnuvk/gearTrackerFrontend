@@ -59,7 +59,12 @@ public class SCDashBoard extends DashBoard{
         });
         buttonList.add(viewRequests);
 
-        add(new ButtonColumn(400, 600, buttonList));
+        JButton viewReport = new JButton("View Report");
+        viewReport.addActionListener((e)->viewReportRoute());
+        buttonList.add(viewReport);
+
+
+        add(new ButtonColumn(400, 625, buttonList));
     }
 
     private void addEquipmentRoute(){
@@ -110,6 +115,13 @@ public class SCDashBoard extends DashBoard{
 
         mainFrame.addCard("DisplayOnly", new DisplayOnlyScreen( column, data));
         mainFrame.show("DisplayOnly");
+    }
+
+    private void viewReportRoute(){
+
+        mainFrame.addCard("ViewReport", new ViewReport());
+        mainFrame.show("ViewReport");
+
     }
 
 
