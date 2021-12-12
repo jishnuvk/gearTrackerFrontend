@@ -70,31 +70,6 @@ public class EquipmentHttpClient
 	    }
 	    return requests;
 	}
-	public static ArrayList<Object> equipment_report()
-	{
-		HttpResponse<String> jsonResponse = null;
-		
-		try {
-			jsonResponse = Unirest.get("http://localhost:8080/geartracker-backend/webapi/report")
-			.header("Content-Type", "application/json")
-			.header("auth-token", UserHttpClient.auth_token)
-			.asString();
-		} catch (UnirestException e) {
-			e.printStackTrace();
-		}
-		
-		assertNotEquals("Unauthorised Error", jsonResponse.getStatus(), 401);
-		
-		JsonObject jsonObject = new JsonParser().parse(jsonResponse.getBody().toString()).getAsJsonObject();
-    	ArrayList<Object> Details = new ArrayList<Object>();
-    	Details.add(jsonObject.get("id"));
-    	Details.add(jsonObject.get("name"));
-    	Details.add(jsonObject.get("description"));
-    	Details.add(jsonObject.get("reserved"));
-    	Details.add(jsonObject.get("status"));
-    	return Details;
-	}
-	//not completed
 	public static String add_equipment(Map<String, Object> equipment)
 	{
 		HttpResponse<String> jsonResponse = null;
