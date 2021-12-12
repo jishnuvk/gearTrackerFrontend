@@ -1,11 +1,10 @@
 package com.geartracker.UI.Utils;
 
-import java.awt.Color;
+
 import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -25,7 +24,7 @@ public class DisplayUser extends JPanel{
         textArea.append("\nName: " + user.getName());
         textArea.append("\nEmail: " + user.getEmail());
         
-        if(user.getRoles().contains("Student")){
+        if(user.getRoles().contains("student")){
             textArea.append("\nFine: " + String.valueOf(user.getFine()));
         }
 

@@ -83,9 +83,10 @@ public class RequestEquipment extends JPanel{
         String response = EquipmentHttpClient.book_equipment(equipment_id, user.getId());
         
         if(response.equals("fail")){
-            int choice = JOptionPane.showConfirmDialog(this, "Request Failed! Someone must have grabbed it while you were looking", ":(", JOptionPane.YES_NO_OPTION);
+            int choice = JOptionPane.showConfirmDialog(this, "Request Failed! Someone must have grabbed it while you were looking. Book more?", ":(", JOptionPane.YES_NO_OPTION);
             
             if(choice == 1){
+                MainFrame.getMainFrame().returnToDashBoard();
                 return;
             }
 
@@ -94,6 +95,7 @@ public class RequestEquipment extends JPanel{
             int choice = JOptionPane.showConfirmDialog(this, "Equipment Successfully Requested! Do you want to book more?", ":D",JOptionPane.YES_NO_OPTION);
 
             if(choice == 1){
+                MainFrame.getMainFrame().returnToDashBoard();
                 return;
             }
             else{
