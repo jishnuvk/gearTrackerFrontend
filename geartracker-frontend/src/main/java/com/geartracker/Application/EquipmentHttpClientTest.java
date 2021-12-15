@@ -1,29 +1,15 @@
 package com.geartracker.Application;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import com.google.gson.JsonObject;
 
 public class EquipmentHttpClientTest 
 {
 	public static void main(String[] args)
 	{
-		/*Map<String, Object> equipment = new HashMap<String, Object>();
-		equipment.put("reserved", false);
-		equipment.put("status", "vacant");
-		equipment.put("id", "e2");
-		equipment.put("name", "e2");R
-		
-		add_equipment_test(equipment);*/
-		// get_equipment_test("stud1");
-
 		book_equipment_test("F1", "stud1");
-		
-		//add_user_test(user);
-		//JsonObject J = UserHttpClient.login("stud1", "password");
-		//assert J.get("email").equals("stud1@iiitb.ac.in");
-//		System.out.println(J);
 	}
 	public static void book_equipment_test(String equipment_id, String user_id)
 	{
@@ -46,6 +32,18 @@ public class EquipmentHttpClientTest
 	public static void add_equipment_test(Map<String, Object> equipment)
 	{
 		String J = EquipmentHttpClient.add_equipment(equipment);
+		//assert J.get("email").equals("stud1@iiitb.ac.in");
+		System.out.println(J);
+	}
+	public static void show_equipment_acc_to_status_test(String status)
+	{
+		JsonObject J = EquipmentHttpClient.report_equipment_acc_to_status(status);
+		//assert J.get("email").equals("stud1@iiitb.ac.in");
+		System.out.println(J);
+	}
+	public static void show_equipment_acc_to_status_test(String status, Map<String, Object> dates)
+	{
+		JsonObject J = EquipmentHttpClient.report_equipment_acc_to_status(status, dates);
 		//assert J.get("email").equals("stud1@iiitb.ac.in");
 		System.out.println(J);
 	}

@@ -1,21 +1,34 @@
 package com.geartracker.UI.Panels;
 
-import java.awt.Color;
+
 import java.awt.Dimension;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
+
+import com.geartracker.Application.EquipmentHttpClient;
+import com.geartracker.Application.RequestHttpClient;
 import com.geartracker.UI.MainFrame;
+import com.geartracker.UI.Utils.ButtonColumn;
 import com.geartracker.UI.Utils.RegularTable;
 
 import org.json.JSONObject;
@@ -23,14 +36,16 @@ import org.json.JSONObject;
 import net.sourceforge.jdatepicker.impl.JDatePanelImpl;
 import net.sourceforge.jdatepicker.impl.JDatePickerImpl;
 import net.sourceforge.jdatepicker.impl.UtilDateModel;
-import net.sourceforge.jdatepicker.JDatePicker;
+
 
 public class ViewReport extends JPanel{
 
     RegularTable regularTable;
     JComboBox<String> reportPicker;
 
-    JDatePickerImpl datePicker;
+    JDatePickerImpl fromDatePicker;
+    JDatePickerImpl toDatePicker;
+
 
     public ViewReport(){
 
@@ -58,41 +73,127 @@ public class ViewReport extends JPanel{
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         add(rightPanel, BorderLayout.WEST);
 
+
+        JPanel reportTypePanel = new JPanel();
+        reportTypePanel.add(new JLabel("Report Type"));
+
         reportPicker = new JComboBox<>();
-        reportPicker.addItem("Available");
-        reportPicker.addItem("Damaged");
-        reportPicker.addItem("Lost");
-        reportPicker.addItem("Issued");
-        reportPicker.addItem("Requested");
+        reportPicker.addItem("lost");
+        reportPicker.addItem("broken");
+        reportPicker.addItem("discarded");
+        reportPicker.addItem("requests");
+        // reportPicker.addItem("Requested");
 
-        reportPicker.addActionListener((e)->iteration());
-        rightPanel.add(Box.createVerticalGlue());
+        // reportPicker.addActionListener((e)->iteration());
+        reportTypePanel.add(reportPicker);
 
-        rightPanel.add(reportPicker);
+        rightPanel.add(reportTypePanel);
 
-        UtilDateModel model=new UtilDateModel();
-        JDatePanelImpl datePanel = new JDatePanelImpl(model);
-        datePicker = new JDatePickerImpl(datePanel);
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        JPanel fromPanel = new JPanel();
+
+        fromPanel.add(new JLabel("From"));
+        UtilDateModel fromModel = new UtilDateModel();
+        JDatePanelImpl fromDatePanel = new JDatePanelImpl(fromModel);
+        fromDatePicker = new JDatePickerImpl(fromDatePanel);
         // datePicker.setBounds(220,350,120,30);
-        rightPanel.add(Box.createVerticalGlue());
-        rightPanel.add(datePicker);
+        fromPanel.add(fromDatePicker);
+
+        rightPanel.add(fromPanel);
+
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        JPanel toPanel = new JPanel();
+
+        toPanel.add(new JLabel("To    "));
+        UtilDateModel toModel = new UtilDateModel();
+        JDatePanelImpl toDatePanel = new JDatePanelImpl(toModel);
+        toDatePicker = new JDatePickerImpl(toDatePanel);
+        
+        toPanel.add(toDatePicker);
+
+        rightPanel.add(toPanel);
+
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+
+        ArrayList<JButton> buttonList = new ArrayList<>();
+
+        JButton fetch = new JButton("Fetch");
+        fetch.addActionListener((e)->iteration());
+        buttonList.add(fetch);
+        // rightPanel.add(fetch);
+
+        rightPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
         JButton back = new JButton("Back");
         back.addActionListener((e)->MainFrame.getMainFrame().returnToDashBoard());
+        buttonList.add(back);
 
-        rightPanel.add(back);
-
-        rightPanel.add(Box.createVerticalGlue());
+        // rightPanel.add(back);
+        ButtonColumn buttonColumn = new ButtonColumn(200, 200, buttonList);
+        rightPanel.add(buttonColumn);
+        buttonColumn.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         
+
+    }
+
+    private String dateToString(Date date){
+        
+        LocalDate d = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        return d.toString();
 
     }
 
     private void iteration(){
 
-        System.out.println( reportPicker.getSelectedItem());
-        JSONObject j = new JSONObject("{\"basketball\": 1,\"badminton Racket\": 1,\"Badminton Racket\": 1}");
+        // System.out.println( reportPicker.getSelectedItem());
+        // System.out.println( fromDatePicker.getModel().getValue());
 
-        Iterator<String> keys=  j.keys();
+        JSONObject response = new JSONObject();
+
+        Date fromDate = (Date)fromDatePicker.getModel().getValue();
+        Date toDate = (Date)toDatePicker.getModel().getValue();
+
+        
+        if(fromDate == null){
+
+            Calendar c = Calendar.getInstance();
+            c.set(2000, 1, 1, 1, 1, 1);
+            fromDate = c.getTime();
+        }
+        if(toDate == null){
+            toDate = Calendar.getInstance().getTime();
+        }
+        if(fromDate.after(toDate)){
+            JOptionPane.showMessageDialog(this, "The dates are incompatible");
+        }   
+        else{
+            // System.out.println(dateToString(fromDate) + " " + dateToString(toDate));
+            Map<String, Object> dates = new HashMap<>();
+            System.out.println(dateToString(fromDate));
+            System.out.println(dateToString(toDate));
+            dates.put("startDate", dateToString(fromDate));
+            dates.put("endDate", dateToString(toDate));
+
+            String type = (String)reportPicker.getSelectedItem();
+
+            if(type == "requests"){
+                
+                response = new JSONObject(RequestHttpClient.report_request_count_date(dates).toString());
+            }
+            else{
+                response = new JSONObject(EquipmentHttpClient.report_equipment_acc_to_status(type, dates).toString());
+            }
+
+        }
+        
+        
+        
+
+        // JSONObject j = new JSONObject("{\"basketball\": 1,\"badminton Racket\": 1,\"Badminton Racket\": 1}");
+
+        Iterator<String> keys = response.keys();
 
         ArrayList<ArrayList<Object>> data = new ArrayList<>();
 
@@ -103,7 +204,7 @@ public class ViewReport extends JPanel{
 
             ArrayList<Object> row = new ArrayList<>();
             row.add(key);
-            row.add(j.get(key));
+            row.add(response.get(key));
 
             data.add(row);
 

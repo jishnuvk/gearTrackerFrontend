@@ -73,6 +73,12 @@ public class ApproveRequest extends JPanel{
             }
             JsonObject result = RequestHttpClient.get_request(id);
 
+            if(result == null){
+                JOptionPane.showMessageDialog(this, "The given request does not exist");
+                rerun = true;
+                continue;
+            }
+
             Gson gson = new Gson();
 
             request = gson.fromJson(result, Request.class);

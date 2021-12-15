@@ -1,14 +1,8 @@
 package com.geartracker.Application;
 
-import java.io.*;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.*;
-
-import org.json.JSONObject;
-// import org.junit.Test;
-
-// import static org.junit.Assert.assertEquals;
-import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.geartracker.Application.DTO.User;
 import com.google.gson.Gson;
@@ -17,30 +11,26 @@ import com.google.gson.JsonParser;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
-import java.io.*;
-
-
 public class UserHttpClient
 {
+	public static String auth_token = "";
 	public static JsonObject login(String user_name, String password)
 	{
 		String user_cred = "{\"id\":\""+user_name+"\",\"password\":\""+password+"\"}";
-		//String user_cred = "{\"id\": \"stud1\", \"password\": \"password\"}";
-			    
-		HttpResponse<JsonNode> jsonResponse = null;
+		
+		HttpResponse<String> jsonResponse = null;
 		try {
-			//requests made by user 'user'
 			jsonResponse = Unirest.post("http://localhost:8080/geartracker-backend/webapi/login")
 				.header("Content-Type", "application/json")
 				.body(user_cred)
-				.asJson();
+				.asString();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		try{
 			JsonObject jsonObject = new JsonParser().parse(jsonResponse.getBody().toString()).getAsJsonObject();
+			auth_token = jsonObject.get("authToken").getAsString();
 			return jsonObject;
 		}
 		catch (NullPointerException e){
@@ -49,19 +39,22 @@ public class UserHttpClient
 	}
 	public static String add_user(Map<String, Object> user)
 	{
-		HttpResponse<JsonNode> jsonResponse = null;
+		HttpResponse<String> jsonResponse = null;
 		Gson gson = new Gson(); 
 		String json = gson.toJson(user);
 		
 		try {
 			jsonResponse = Unirest.post("http://localhost:8080/geartracker-backend/webapi/users")
 			.header("Content-Type", "application/json")
+			.header("auth-token", auth_token)
 			.body(json)
-			.asJson();
+			.asString();
 		} catch (UnirestException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
         }
+		
+		assertNotEquals("Unauthorised to this user", jsonResponse.getStatus(), 401);
+		
 		if(jsonResponse.getStatus() == 200)
 		{
 			return "Successfully Added User";
@@ -70,19 +63,22 @@ public class UserHttpClient
 	}
 	public static String edit_user(User user)
 	{
-		HttpResponse<JsonNode> jsonResponse = null;
+		HttpResponse<String> jsonResponse = null;
 		Gson gson = new Gson(); 
 		String json = gson.toJson(user, User.class);
-		//http://localhost:8080/geartracker-backend/webapi/users/admin1
+		
 		try {
 			jsonResponse = Unirest.put("http://localhost:8080/geartracker-backend/webapi/users/" + user.getId())
 			.header("Content-Type", "application/json")
+			.header("auth-token", auth_token)
 			.body(json)
-			.asJson();
+			.asString();
 		} catch (UnirestException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		assertNotEquals("Unauthorised to this user", jsonResponse.getStatus(), 401);
+		
 		if(jsonResponse.getStatus() == 200)
 		{
 			return "Successfully Edited User";
@@ -91,17 +87,18 @@ public class UserHttpClient
 	}
 	public static JsonObject show_user(String user_id)
 	{
-		HttpResponse<JsonNode> jsonResponse = null;
-		//http://localhost:8080/geartracker-backend/webapi/users/admin1
+		HttpResponse<String> jsonResponse = null;
 		try {
 			jsonResponse = Unirest.get("http://localhost:8080/geartracker-backend/webapi/users/"+user_id)
 			.header("Content-Type", "application/json")
-			.asJson();
+			.header("auth-token", auth_token)
+			.asString();
 		} catch (UnirestException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
+		assertNotEquals("Unauthorised to this user", jsonResponse.getStatus(), 401);
+		
 		try{
 			JsonObject jsonObject = new JsonParser().parse(jsonResponse.getBody().toString()).getAsJsonObject();
 			return jsonObject;
@@ -110,5 +107,4 @@ public class UserHttpClient
 			return null;
 		}	
 	}
-
 }

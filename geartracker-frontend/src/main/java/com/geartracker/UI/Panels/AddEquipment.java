@@ -51,7 +51,11 @@ public class AddEquipment extends JPanel{
         Map<String, Object> response = form.getResponse();
         
         response.put("status", "available");
-        EquipmentHttpClient.add_equipment(response);
+        String result = EquipmentHttpClient.add_equipment(response);
+
+        if(result != "Success"){
+            JOptionPane.showMessageDialog(this, result, ":o", JOptionPane.ERROR_MESSAGE);
+        }
 
         int choice = JOptionPane.showConfirmDialog(this, "Do you want to add more?", "Done",JOptionPane.YES_NO_OPTION);
         if(choice == 0){

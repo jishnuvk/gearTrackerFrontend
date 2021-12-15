@@ -11,7 +11,7 @@ import com.geartracker.Application.EquipmentHttpClient;
 import com.geartracker.Application.RequestHttpClient;
 import com.geartracker.Application.DTO.User;
 import com.geartracker.UI.Utils.ButtonColumn;
-import com.geartracker.UI.Utils.DisplayUser;
+
 
 public class StudentDashBoard extends DashBoard{
 
